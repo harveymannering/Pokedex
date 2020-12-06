@@ -1,4 +1,4 @@
 <resources>
     <string name="app_name">Pokedex</string>
-    <string name="search">Search</string>
+    <string name="search">Loading</string>
 </resources>

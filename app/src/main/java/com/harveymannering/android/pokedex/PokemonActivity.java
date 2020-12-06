@@ -1,22 +1,12 @@
 package com.harveymannering.android.pokedex;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Color;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Gravity;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
-import org.json.JSONArray;
-
-import java.io.InputStream;
-import java.io.StringBufferInputStream;
 import java.util.ArrayList;
 
 public class PokemonActivity extends AppCompatActivity {
@@ -44,9 +34,10 @@ public class PokemonActivity extends AppCompatActivity {
         poke_image.setLayoutParams(layout_params);
 
         //Set the value of ImageView
-        if (pokemon.getSprite() != null)
+        if (pokemon.getSprite() != null) {
             poke_image.setImageBitmap(Bitmap.createScaledBitmap(pokemon.getSprite(), MainActivity.sprite_size, MainActivity.sprite_size, true));
-        else{
+        }
+        else {
             //start downloading sprite in new thread
             DownloadImageTask download = new DownloadImageTask(poke_image, id);
             download.execute(pokemon.getSpriteUrl());
@@ -88,8 +79,7 @@ public class PokemonActivity extends AppCompatActivity {
         for (String type : types){
             //Create new text view object
             TextView type_view = new TextView(this);
-            type_view.setText(capitalize(type));
-            type_view.setPadding(0,0,8,0);
+            type_view.setText(capitalize(type) + "  ");
 
             //Set the colour of the label
             switch (type){
@@ -172,7 +162,7 @@ public class PokemonActivity extends AppCompatActivity {
 
         protected void onPostExecute (Bitmap result){
             //Upscales and sets image view to bitmap
-            imageView.setImageBitmap(Bitmap.createScaledBitmap(result, 400, 400, false));
+            imageView.setImageBitmap(Bitmap.createScaledBitmap(result, MainActivity.sprite_size, MainActivity.sprite_size, false));
             //Save bitmap in pokemon object so it wont need to be downloaded again
             saveBitmap(result, position);
         }

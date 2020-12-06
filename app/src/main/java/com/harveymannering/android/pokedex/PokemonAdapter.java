@@ -1,11 +1,7 @@
 package com.harveymannering.android.pokedex;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.os.AsyncTask;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,11 +12,6 @@ import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
-import androidx.cardview.widget.CardView;
-import androidx.recyclerview.widget.RecyclerView;
-
-import java.io.InputStream;
 import java.util.ArrayList;
 
 public class PokemonAdapter extends BaseAdapter implements Filterable {
@@ -29,7 +20,7 @@ public class PokemonAdapter extends BaseAdapter implements Filterable {
     private Context context;
 
     //Objects used for searching
-    private ArrayList<Pokemon> filteredDataSet;
+    public static ArrayList<Pokemon> filteredDataSet;
     private ValueFilter valueFilter;
 
     public PokemonAdapter(Context context, ArrayList<Pokemon> dataSet){
@@ -79,7 +70,7 @@ public class PokemonAdapter extends BaseAdapter implements Filterable {
             //If sprite hasn't already been downloaded
             if (filteredDataSet.get(position).getSprite() == null) {
                 //start downloading sprite in new thread
-                DownloadImagesTask download = new DownloadImagesTask(image_pokemon, position);
+                DownloadImagesTask download = new DownloadImagesTask(image_pokemon, filteredDataSet.get(position).getId() - 1);
                 download.execute(filteredDataSet.get(position).getSpriteUrl());
             }
             else {
@@ -95,9 +86,10 @@ public class PokemonAdapter extends BaseAdapter implements Filterable {
         return view;
     }
 
-    //Saves pokemon sprite in memeory
+    //Saves pokemon sprite in memory
     public void saveBitmap(Bitmap sprite, int listPosition){
-        dataSet.get(listPosition).setSprite(sprite);
+        if (dataSet.size() > listPosition)
+            dataSet.get(listPosition).setSprite(sprite);
     }
 
     @Override
