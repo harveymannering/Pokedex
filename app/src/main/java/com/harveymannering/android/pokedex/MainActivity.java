@@ -66,8 +66,15 @@ public class MainActivity extends AppCompatActivity {
                             @Override
                             public void onResponse(JSONObject response) {
                                 try {
+                                    //No duplicate pokemon
+                                    Pokemon new_pokemon = new Pokemon(response);
+                                    for (Pokemon p : data) {
+                                        if (new_pokemon.getId() == p.getId())
+                                            return;
+                                    }
+
                                     //Add a pokemon to the data variable
-                                    data.add(new Pokemon(response));
+                                    data.add(new_pokemon);
                                     count++;
 
                                     //If statement will only run for the final pokemon

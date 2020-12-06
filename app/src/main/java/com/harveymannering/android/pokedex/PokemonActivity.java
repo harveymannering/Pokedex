@@ -161,10 +161,12 @@ public class PokemonActivity extends AppCompatActivity {
         }
 
         protected void onPostExecute (Bitmap result){
-            //Upscales and sets image view to bitmap
-            imageView.setImageBitmap(Bitmap.createScaledBitmap(result, MainActivity.sprite_size, MainActivity.sprite_size, false));
-            //Save bitmap in pokemon object so it wont need to be downloaded again
-            saveBitmap(result, position);
+            if (result != null) {
+                //Upscales and sets image view to bitmap
+                imageView.setImageBitmap(Bitmap.createScaledBitmap(result, MainActivity.sprite_size, MainActivity.sprite_size, false));
+                //Save bitmap in pokemon object so it wont need to be downloaded again
+                saveBitmap(result, position);
+            }
         }
     }
 }
